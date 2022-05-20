@@ -1,0 +1,32 @@
+<h1><%= @article.title %></h1>
+<p><%= @article.body %></p>
+
+<p><%= link_to "Edit", edit_article_path(@article) %></p>
+<p><%= link_to "Delete", article_path(@article), data:{
+                                                    method: :delete,
+                                                    confirm: "are you sure?"
+} %></p>
+<h2>comments</h2>
+  <% @article.comments.each do |comment| %>
+    <h3><%= comment.id %>. <%= comment.commenter %></h3>
+    <p><%= comment.body %></p>
+    <p><%= link_to "delete comment", [comment.article, comment], data: {
+        method: :delete,
+        confirm: "Are you sure?"
+    } %></p>
+  <% end %>
+
+<h2>Add a comment</h2>
+<%= form_with model: [@article, @article.comments.build] do |form| %>
+  <p>
+    <%= form.label :commenter %>
+    <%= form.text_field :commenter %>
+  </p>
+  <p>
+    <%= form.label :body %>
+    <%= form.text_area :body %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
